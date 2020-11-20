@@ -1,6 +1,6 @@
 name: another example workflow
 
-on: [pull_request]
+on: [pull_request, workflow_dispatch]
 
 jobs:
   
@@ -10,7 +10,17 @@ jobs:
 
     steps:
 
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      
       - name: Run a one-line script
         run: |
           echo Hello, Tesena Fest!
           echo Hi Aaron, Thanks for awsome workshop!
+          
+      - run: npm install
+      - run: npm test
+            

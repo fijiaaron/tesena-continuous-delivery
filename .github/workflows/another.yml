@@ -1,10 +1,10 @@
-name: another example workflow
+name: example webapp workflow
 
 on: [pull_request, workflow_dispatch]
 
 jobs:
   
-  demonstration:
+  build-test-deploy:
 
     runs-on: ubuntu-20.04
 
@@ -15,12 +15,23 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
+
+          
       
       - name: Run a one-line script
         run: |
           echo Hello, Tesena Fest!
           echo Hi Aaron, Thanks for awsome workshop!
-          
-      - run: npm install
-      - run: npm test
+        
+      - name: build and test app
+        run: |
+          npm install
+          npm run build
+          npm test
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
             
